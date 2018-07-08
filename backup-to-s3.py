@@ -76,11 +76,13 @@ def create_dump(config, db, filepath, filename, verbose=False, upload_callback=N
         if os.path.isfile(filepath):
             # Zip the dump file up ready for sending.
             zip_name = filepath + '.zip'
-            print('Zipping up the dump file to {zip_filename}'.format(zip_filename=zip_name))
+            if verbose:
+                print('Zipping up the dump file to {zip_filename}'.format(zip_filename=zip_name))
             zipfile.ZipFile(zip_name, 'w', zipfile.ZIP_DEFLATED).write(filepath)
             try:
                 if os.path.isfile(zip_name):
-                    print('+ Zip file created successfully')
+                    if verbose:
+                        print('+ Zip file created successfully')
                     os.remove(filepath)
                     try:
                         upload_to_s3(zip_name, "db", filename, config, verbose)
@@ -119,17 +121,18 @@ def create_archive(config, dir, filepath, filename, verbose=False, upload_callba
         
         try:
             if os.path.isfile(zip_name):
-                print('+ Zip file for directory created successfully')
+                if verbose:
+                    print('+ Zip file for directory created successfully')
                 try:
                     upload_to_s3(zip_name, "directory", filename, config, verbose)
                 except:
-                    print('Failed to upload directory archive file to S3 bucket {s3_bucket}'.format(s3_bucket=config['aws']['AWS_STORAGE_BUCKET_NAME']))
+                    print('- Failed to upload directory archive file to S3 bucket {s3_bucket}'.format(s3_bucket=config['aws']['AWS_STORAGE_BUCKET_NAME']))
             else:
-                print('Unable to find or access the directory archive file {zip_file}'.format(zip_file=zip_name))
+                print('- Unable to find or access the directory archive file {zip_file}'.format(zip_file=zip_name))
         except:
-            print('Failed to create directory archive file')
+            print('- Failed to create directory archive file')
             exit(1)
-        #os.remove(zip_name)
+        os.remove(zip_name)
 
 
 #
@@ -167,7 +170,7 @@ if __name__ == '__main__':
         action='store_true',
         dest='verbose',
         help='Enable verbose mode.',
-        default=True,
+        default=False,
     )
     args = parser.parse_args()
 
