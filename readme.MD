@@ -14,6 +14,7 @@ managing the use of that system and any costs incurred.
 - An AWS S3 bucket.
 - The S3 bucket should also have retention policies set on it. You may want to 
 expire content into Glacier after a certain time.
+- The mysqldump utility to be available on the system.
 - A database user account that can read the target databases. DO NOT use your root account.
 
 ## Installation
@@ -37,6 +38,13 @@ and update the values in the file as needed.
 Note that the BUCKET_KEY_* values can be defined as folders using forward slashes. If the
 folder does not exist in the bucket, they will be created.
 You can add as many extra JSON sections for databaes and directories as you like.
+
+To create a database user with read access to all the databases you can run this
+as the database root user. It'd be better though if you only allocated this to the
+actual databases being backed up. This command in MySQL will create a user called
+"s3backup".
+
+GRANT LOCK TABLES, SELECT ON *.* TO 's3backup'@'%' IDENTIFIED BY 'password';
 
 The user you run the script as will need read permission to the directories that you
 want to be backed up.
