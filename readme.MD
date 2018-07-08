@@ -1,9 +1,9 @@
 # Backup to S3
 This python script will prepare and then copy the selected
 database dumps and file directories to an AWS S3 bucket of your
-choice.
-The backup files will be compressed and deleted after the
+choice. The backup files will be compressed and deleted after the
 files are copied to S3.
+
 NOTE: The use of S3 incurs a cost. You are solely responsible for 
 managing the use of that system and any costs incurred.
 
@@ -18,7 +18,7 @@ expire content into Glacier after a certain time.
 - A database user account that can read the target databases. DO NOT use your root account.
 
 ## Installation
-Copy the files in this repo or just git clone them to the machine that needs
+Copy the files in this repo or just "git clone" them to the machine that needs
 backing up. 
 
 Install the libraries listed in the requirements.txt file.
