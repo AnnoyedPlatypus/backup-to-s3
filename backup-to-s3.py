@@ -11,16 +11,20 @@ import zipfile
 #
 
 def connect_to_s3(aws_config, verbose = False):
-	if verbose:
-		print('Connecting to Amazon S3')
+    if verbose:
+        print('Connecting to Amazon S3...')
 
-	s3 = boto3.resource('s3')
+    session = boto3.Session(
+        aws_access_key_id=aws_config['AWS_ACCESS_KEY_ID'],
+        aws_secret_access_key=aws_config['AWS_SECRET_ACCESS_KEY']
+        )
+    s3 = session.resource('s3')
 
-	if verbose:
-		print('+ Connected')
+    if verbose:
+        print('+ Connected')
         for bucket in s3.buckets.all():
             if (bucket.name == aws_config['AWS_STORAGE_BUCKET_NAME']):
-                print('+ Confirmed target S3 bucket exists')
+                print('+ Confirmed target S3 bucket {bucket_name} exists'.format(bucket_name=aws_config['AWS_STORAGE_BUCKET_NAME']))
 
 	return (s3)
 

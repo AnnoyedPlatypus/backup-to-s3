@@ -18,7 +18,12 @@ expire content into Glacier after a certain time.
 
 ## Installation
 Copy the files in this repo or just git clone them to the machine that needs
-backing up. Rename and change the config file to suit your own needs. Run the
+backing up. 
+
+Install the libraries listed in the requirements.txt file.
+i.e. "pip install boto3 argparse --user"
+
+Rename and change the config file to suit your own needs. Run the
 script manually to make sure your config is working as expected.
 
 If all is good then add it to your crontab to run as often as you like. Each backup file
@@ -32,3 +37,9 @@ and update the values in the file as needed.
 Note that the BUCKET_KEY_* values can be defined as folders using forward slashes. If the
 folder does not exist in the bucket, they will be created.
 You can add as many extra JSON sections for databaes and directories as you like.
+
+The user you run the script as will need read permission to the directories that you
+want to be backed up.
+
+## ToDo
+- Allow a sub-folder in a target directory to be excluded from the backup.
