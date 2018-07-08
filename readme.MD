@@ -31,6 +31,11 @@ If all is good then add it to your crontab to run as often as you like. Each bac
 is named with the current timestamp to the second so multiple backups
 each day can be identified.
 
+Run the backup as below. Full paths defined if you're putting it into crontab and
+based on a Ubuntu machine layout. User home is ubuntu in this example.
+
+"/usr/bin/python /home/ubuntu/backup-to-s3/backup-to-s3.py backup-to-s3.json"
+
 ### Configuration
 All the configuration required should be done in your configuration file. A default
 file called "backup-to-s3.json.default" should have been included. Just make a copy of this
