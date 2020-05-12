@@ -56,5 +56,8 @@ GRANT LOCK TABLES, SELECT ON *.* TO 's3backup'@'localhost';
 The user you run the script as will need read permission to the directories that you
 want to be backed up.
 
+The short name attribute for folder backups are used for the file names stored in
+S3 when a folder is zipped up.
+
 ## ToDo
 - Allow a sub-folder in a target directory to be excluded from the backup.
