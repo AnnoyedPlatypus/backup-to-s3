@@ -8,7 +8,7 @@ NOTE: The use of S3 incurs a cost. You are solely responsible for
 managing the use of that system and any costs incurred.
 
 ## Requirements
-- Python and pip
+- Python3 and pip
 - The python libs listed in requirements.txt
 - Access to an Amazon Web Services account and a valid set of API keys.
 - An AWS S3 bucket.
@@ -22,7 +22,7 @@ Copy the files in this repo or just "git clone" them to the machine that needs
 backing up. 
 
 Install the libraries listed in the requirements.txt file.
-i.e. "pip install boto3 argparse --user"
+i.e. "pip3 install boto3 argparse --user"
 
 Rename and change the config file to suit your own needs. Run the
 script manually to make sure your config is working as expected.
@@ -42,14 +42,16 @@ file called "backup-to-s3.json.default" should have been included. Just make a c
 and update the values in the file as needed.
 Note that the BUCKET_KEY_* values can be defined as folders using forward slashes. If the
 folder does not exist in the bucket, they will be created.
-You can add as many extra JSON sections for databaes and directories as you like.
+You can add as many extra JSON sections for databases and directories as you like.
 
 To create a database user with read access to all the databases you can run this
 as the database root user. It'd be better though if you only allocated this to the
 actual databases being backed up. This command in MySQL will create a user called
 "s3backup".
 
-GRANT LOCK TABLES, SELECT ON *.* TO 's3backup'@'%' IDENTIFIED BY 'password';
+CREATE USER 's3backup'@'localhost' IDENTIFIED BY 'password_here';
+
+GRANT LOCK TABLES, SELECT ON *.* TO 's3backup'@'localhost';
 
 The user you run the script as will need read permission to the directories that you
 want to be backed up.
