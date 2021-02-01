@@ -78,7 +78,9 @@ def create_dump(config, db, filepath, filename, verbose=False, upload_callback=N
             zip_name = filepath + '.zip'
             if verbose:
                 print('Zipping up the dump file to {zip_filename}'.format(zip_filename=zip_name))
-            zipfile.ZipFile(zip_name, 'w', zipfile.ZIP_DEFLATED).write(filepath)
+            zf_compression = zipfile.ZIP_DEFLATED
+            zf = zipfile.ZipFile(zip_name, mode="w")
+            zf.write(filepath, zf_compression)
             try:
                 if os.path.isfile(zip_name):
                     if verbose:
@@ -95,6 +97,7 @@ def create_dump(config, db, filepath, filename, verbose=False, upload_callback=N
             except:
                 print('- Failed to create zip file')
                 exit(1)
+            zf.close()
             if config['delete_backup'] == "true" and os.path.isfile(filepath):
                 os.remove(filepath)
 
@@ -114,11 +117,15 @@ def create_archive(config, dir, filepath, filename, verbose=False, upload_callba
         if verbose:
             print('+ Confirmed {dir} exists'.format(dir=dir['DIR_NAME']))
 
-        zipf = zipfile.ZipFile(zip_name, 'w', zipfile.ZIP_DEFLATED)
-        for root, dirs, files in os.walk(folder['DIR_NAME']):
+        zf_compression = zipfile.ZIP_DEFLATED
+        zf = zipfile.ZipFile(zip_name, mode="w")
+
+        # Iterate over all the folders and files in directory
+        for root, dirs, files in os.walk(dir['DIR_NAME']):
             for file in files:
-                zipf.write(os.path.join(root, file))
-        
+                zf.write(os.path.join(root, file), os.path.relpath(os.path.join(root, file), os.path.join(dir['DIR_NAME'], '..')))
+        zf.close()
+
         try:
             if os.path.isfile(zip_name):
                 if verbose:
@@ -133,6 +140,8 @@ def create_archive(config, dir, filepath, filename, verbose=False, upload_callba
             print('- Failed to create directory archive file')
             exit(1)
         os.remove(zip_name)
+    else:
+        print('- Name provided was not recognised as a directory {dir}'.format(dir=dir['DIR_NAME']))
 
 
 #
