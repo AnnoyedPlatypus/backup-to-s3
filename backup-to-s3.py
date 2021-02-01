@@ -26,7 +26,7 @@ def connect_to_s3(aws_config, verbose = False):
             if (bucket.name == aws_config['AWS_STORAGE_BUCKET_NAME']):
                 print('+ Confirmed target S3 bucket {bucket_name} exists'.format(bucket_name=aws_config['AWS_STORAGE_BUCKET_NAME']))
 
-	return (s3)
+    return (s3)
 
 #
 # Upload dump to Amazon S3
